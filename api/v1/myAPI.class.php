@@ -38,19 +38,29 @@ class MyAPI extends API
 class APIKey
 {
     function verifyKey($key, $source) {
-        echo "key: $key, source: $source\n";
+        $json = file_get_contents('apikey.json');
+        $keyset = json_decode($json);
         # Check apikey
-        return true;
+        if (($keyset->source == $source) && ($keyset->apikey == $key) ) {
+            #echo "key: $key, source: $source\n";
+            return true;
+        }
+        return false;
     }
 }
 
 class User
 {
     function get($what, $data) {
-        echo "User: $what, $data\n";
+        $json = file_get_contents('apikey.json');
+        $keyset = json_decode($json);
         # Check token
-        $this->name = 'Theo';
-        return True;
+        if (($what == 'token') && ($data == $keyset->token)) {
+            #echo "User: $what, $data\n";
+            $this->name = 'Theo';
+            return True;
+        }
+        return false;
     }
 
 }
